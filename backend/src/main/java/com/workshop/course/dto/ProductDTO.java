@@ -1,7 +1,11 @@
 package com.workshop.course.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
+import com.workshop.course.entities.Category;
 import com.workshop.course.entities.Product;
 
 public class ProductDTO implements Serializable {
@@ -10,6 +14,8 @@ public class ProductDTO implements Serializable {
 	private Long id;
 	private String name;
 	private Double price;
+
+	List<CategoryDTO> categories = new ArrayList<>();
 
 	public ProductDTO() {
 	}
@@ -24,6 +30,11 @@ public class ProductDTO implements Serializable {
 		this.id = entity.getId();
 		this.name = entity.getName();
 		this.price = entity.getPrice();
+	}
+
+	public ProductDTO(Product entity, Set<Category> categories) {
+		this(entity);
+		entity.getCategories().forEach(c -> this.categories.add(new CategoryDTO(c)));
 	}
 
 	public Long getId() {
@@ -48,6 +59,10 @@ public class ProductDTO implements Serializable {
 
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+
+	public List<CategoryDTO> getCategories() {
+		return categories;
 	}
 
 }
