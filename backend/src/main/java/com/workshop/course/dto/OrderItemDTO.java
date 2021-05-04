@@ -1,4 +1,4 @@
-package com.workshop.course.entities.dto;
+package com.workshop.course.dto;
 
 import com.workshop.course.entities.OrderItem;
 

@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.workshop.course.dto.OrderDTO;
 import com.workshop.course.entities.Order;
-import com.workshop.course.entities.dto.OrderDTO;
 import com.workshop.course.repository.OrderRepository;
 import com.workshop.course.services.exeptions.ResourceNotFoundException;
 

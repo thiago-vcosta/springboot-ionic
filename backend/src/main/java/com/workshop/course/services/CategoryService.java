@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.workshop.course.dto.CategoryDTO;
 import com.workshop.course.entities.Category;
-import com.workshop.course.entities.dto.CategoryDTO;
 import com.workshop.course.repository.CategoryRepository;
 import com.workshop.course.services.exeptions.ResourceNotFoundException;
 
@@ -21,6 +21,6 @@ public class CategoryService {
 	public CategoryDTO findById(Long id) {
 		Optional<Category> obj = repository.findById(id);
 		Category entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity Not Found Id: " + id));
-		return new CategoryDTO(entity, entity.getProducts());
+		return new CategoryDTO(entity);
 	}
 }
