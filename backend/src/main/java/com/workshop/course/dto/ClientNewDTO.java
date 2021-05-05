@@ -2,23 +2,45 @@ package com.workshop.course.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+import com.workshop.course.services.validation.ClientInsert;
+
+@ClientInsert
 public class ClientNewDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@Size(min = 5, max = 60, message = "Deve ter entre 5 e 60 caracteres")
+	@NotBlank(message = "Campo obrigatório")
 	private String name;
+	
+	@NotBlank(message = "Campo obrigatório")
+	@Email(message = "Email inválido")
 	private String email;
+	
+	@NotBlank(message = "Campo obrigatório")
 	private String cpfCnpj;
 	private Integer type;
+	
+	@NotBlank(message = "Campo obrigatório")
 	private String street;
+	
+	@NotBlank(message = "Campo obrigatório")
 	private String num;
+	
 	private String complement;
 	private String district;
+	
+	@NotBlank(message = "Campo obrigatório")
 	private String cep;
 	
+	@NotBlank(message = "Campo obrigatório")
 	private String phone1;
 	private String phone2;
 	private String phone3;
-	
+	 
 	private Long cityId;
 	
 	public ClientNewDTO() {		
