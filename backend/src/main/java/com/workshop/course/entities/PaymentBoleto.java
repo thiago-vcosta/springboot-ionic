@@ -4,9 +4,11 @@ import java.time.Instant;
 
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.workshop.course.entities.enums.PaymentStatus;
 
 @Entity(name = "tb_payment_boleto")
+@JsonTypeName("paymentWithBoleto")
 public class PaymentBoleto extends Payment {
 	private static final long serialVersionUID = 1L;
 	

@@ -11,10 +11,12 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.workshop.course.entities.enums.PaymentStatus;
 
 @Entity(name = "tb_payment")
 @Inheritance(strategy = InheritanceType.JOINED)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 public class Payment implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -45,17 +47,21 @@ public class Payment implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	public Integer getStatus() {
-		return status;
+	
+	public PaymentStatus getStatus() {
+		return PaymentStatus.toEnum(status);
 	}
 
-	public void setStatus(Integer status) {
-		this.status = status;
+	public void setStatus(PaymentStatus status) {
+		this.status = status.getCode();
 	}
 
 	public Order getOrder() {
 		return order;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
 	}
 
 	@Override

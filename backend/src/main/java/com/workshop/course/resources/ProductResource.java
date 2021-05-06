@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.workshop.course.dto.ProductDTO;
+import com.workshop.course.entities.Product;
 import com.workshop.course.resources.utils.URL;
 import com.workshop.course.services.ProductService;
 
@@ -54,8 +55,8 @@ public class ProductResource {
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<ProductDTO> findById(@PathVariable Long id) {
-		ProductDTO obj = service.findById(id);
+	public ResponseEntity<Product> findById(@PathVariable Long id) {
+		Product obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 
