@@ -5,25 +5,26 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 import com.workshop.course.entities.Address;
 import com.workshop.course.entities.Client;
+import com.workshop.course.services.validation.ClientUpdate;
 
+@ClientUpdate
 public class ClientDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
 	
 	@Size(min = 5, max = 60, message = "Deve ter entre 5 e 60 caracteres")
-	@NotBlank(message = "Campo obrigatório")
+	@NotEmpty(message = "Campo obrigatório")
 	private String name;
 	
-	@NotBlank(message = "Campo obrigatório")
+	@NotEmpty(message = "Campo obrigatório")
 	@Email(message = "Email inválido")
 	private String email;
-	private String cpfCnpj;
 
 	Set<AddressDTO> address = new HashSet<>();
 
@@ -32,18 +33,16 @@ public class ClientDTO implements Serializable {
 	public ClientDTO() {		
 	}
 
-	public ClientDTO(Long id, String name, String email, String cpfCnpj) {
+	public ClientDTO(Long id, String name, String email) {
 		this.id = id;
 		this.name = name;
 		this.email = email;
-		this.cpfCnpj = cpfCnpj;
 	}
 	
 	public ClientDTO(Client entity) {
 		this.id = entity.getId();
 		this.name = entity.getName();
 		this.email = entity.getEmail();
-		this.cpfCnpj = entity.getCpfCnpj();
 	}
 	
 	public ClientDTO(Client entity, Set<Address> address, Set<String> phone) {
@@ -75,14 +74,6 @@ public class ClientDTO implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getCpfCnpj() {
-		return cpfCnpj;
-	}
-
-	public void setCpfCnpj(String cpfCnpj) {
-		this.cpfCnpj = cpfCnpj;
 	}
 
 	public Set<AddressDTO> getAddress() {

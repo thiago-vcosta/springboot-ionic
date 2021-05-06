@@ -1,15 +1,45 @@
 INSERT INTO tb_category (name) VALUES ('Informática');
-INSERT INTO tb_category (name) VALUES ('Eletrônicos');
 INSERT INTO tb_category (name) VALUES ('Escritório');
+INSERT INTO tb_category (name) VALUES ('Cama mesa e banho');
+INSERT INTO tb_category (name) VALUES ('Eletrônicos');
+INSERT INTO tb_category (name) VALUES ('Jardinagem');
+INSERT INTO tb_category (name) VALUES ('Decoração');
+INSERT INTO tb_category (name) VALUES ('Perfumaria');
 
 INSERT INTO tb_product (name, price) VALUES ('Computador', 2000.0);
-INSERT INTO tb_product (name, price) VALUES ('TV', 800.0);
+INSERT INTO tb_product (name, price) VALUES ('Impressora', 800.0);
 INSERT INTO tb_product (name, price) VALUES ('Mouse', 80.0);
+INSERT INTO tb_product (name, price) VALUES ('Mesa de Escritório', 80.0);
+INSERT INTO tb_product (name, price) VALUES ('Toalha', 80.0);
+INSERT INTO tb_product (name, price) VALUES ('Colcha', 80.0);
+INSERT INTO tb_product (name, price) VALUES ('TV Tela Plana', 80.0);
+INSERT INTO tb_product (name, price) VALUES ('Roçadeira', 80.0);
+INSERT INTO tb_product (name, price) VALUES ('Abajour', 80.0);
+INSERT INTO tb_product (name, price) VALUES ('Pendente', 80.0);
+INSERT INTO tb_product (name, price) VALUES ('Shampoo', 80.0);
 
-INSERT INTO tb_product_category (product_id, category_id) VALUES (1, 1);
-INSERT INTO tb_product_category (product_id, category_id) VALUES (1, 2);
-INSERT INTO tb_product_category (product_id, category_id) VALUES (2, 2);
-INSERT INTO tb_product_category (product_id, category_id) VALUES (3, 1);
+INSERT INTO tb_product_category (category_id, product_id) VALUES (1, 1);
+INSERT INTO tb_product_category (category_id, product_id) VALUES (1, 2);
+INSERT INTO tb_product_category (category_id, product_id) VALUES (1, 3);
+
+INSERT INTO tb_product_category (category_id, product_id) VALUES (2, 2);
+INSERT INTO tb_product_category (category_id, product_id) VALUES (2, 4);
+
+INSERT INTO tb_product_category (category_id, product_id) VALUES (3, 5);
+INSERT INTO tb_product_category (category_id, product_id) VALUES (3, 6);
+
+INSERT INTO tb_product_category (category_id, product_id) VALUES (4, 1);
+INSERT INTO tb_product_category (category_id, product_id) VALUES (4, 2);
+INSERT INTO tb_product_category (category_id, product_id) VALUES (4, 3);
+INSERT INTO tb_product_category (category_id, product_id) VALUES (4, 7);
+
+INSERT INTO tb_product_category (category_id, product_id) VALUES (5, 8);
+
+INSERT INTO tb_product_category (category_id, product_id) VALUES (6, 9);
+INSERT INTO tb_product_category (category_id, product_id) VALUES (6, 10);
+
+INSERT INTO tb_product_category (category_id, product_id) VALUES (7, 11);
+
 
 INSERT INTO tb_state (name) VALUES ('São Paulo');
 INSERT INTO tb_state (name) VALUES ('Minas Gerais');

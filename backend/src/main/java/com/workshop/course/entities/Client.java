@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,6 +25,8 @@ public class Client implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
+
+	@Column(unique = true)
 	private String email;
 	private String cpfCnpj;
 	private Integer type;
@@ -48,7 +51,7 @@ public class Client implements Serializable {
 		this.name = name;
 		this.email = email;
 		this.cpfCnpj = cpfCnpj;
-		this.type = type.getCode();
+		this.type = (type==null) ? null : type.getCode();
 	}
 
 	public Long getId() {

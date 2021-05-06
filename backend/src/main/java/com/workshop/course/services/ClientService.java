@@ -85,7 +85,7 @@ public class ClientService {
 	}
 
 	public Client copyDtoToEntity(ClientDTO dto) {
-		Client cli = new Client(dto.getId(), dto.getName(), dto.getEmail(), dto.getCpfCnpj(), null);
+		Client cli = new Client(dto.getId(), dto.getName(), dto.getEmail(), null, null);
 		return cli;
 	}
 	
