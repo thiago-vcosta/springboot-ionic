@@ -34,6 +34,9 @@ public class OrderService {
 	@Autowired
 	private OrderItemRepository orderItemRepository;
 	
+	@Autowired
+	private ClientService clientService;
+	
 
 	@Transactional(readOnly = true)
 	public Order findById(Long id) {
@@ -45,6 +48,7 @@ public class OrderService {
 	public Order insert(Order obj) {
 		obj.setId(null);
 		obj.setInstant(new Date());
+		obj.setClient(clientService.findById(obj.getClient().getId()));
 		obj.getPayment().setStatus(PaymentStatus.PENDENTE);
 		obj.getPayment().setOrder(obj);
 
@@ -63,7 +67,7 @@ public class OrderService {
 			oi.setOrder(obj);
 		}
 		orderItemRepository.saveAll(obj.getItems());
-		
+		System.out.println(obj);
 		return obj;
 	}
 }
