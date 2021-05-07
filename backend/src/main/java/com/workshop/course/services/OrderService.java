@@ -24,19 +24,21 @@ public class OrderService {
 
 	@Autowired
 	private BoletoService boletoService;
-	
+
 	@Autowired
 	private PaymentRepository paymentRepository;
-	
+
 	@Autowired
 	private ProductService productService;
-	
+
 	@Autowired
 	private OrderItemRepository orderItemRepository;
-	
+
 	@Autowired
 	private ClientService clientService;
-	
+
+	@Autowired
+	private EmailService emailService;
 
 	@Transactional(readOnly = true)
 	public Order findById(Long id) {
@@ -56,10 +58,10 @@ public class OrderService {
 			PaymentBoleto pay = (PaymentBoleto) obj.getPayment();
 			boletoService.fillPaymentWithBoleto(pay, obj.getInstant());
 		}
-		
+
 		obj = repository.save(obj);
 		paymentRepository.save(obj.getPayment());
-		
+
 		for (OrderItem oi : obj.getItems()) {
 			oi.setDiscount(0.0);
 			oi.setProduct(productService.findById(oi.getProduct().getId()));
@@ -67,7 +69,7 @@ public class OrderService {
 			oi.setOrder(obj);
 		}
 		orderItemRepository.saveAll(obj.getItems());
-		System.out.println(obj);
+		emailService.sendOrderCOnfirmationEmail(obj);
 		return obj;
 	}
 }
