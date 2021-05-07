@@ -1,6 +1,6 @@
 package com.workshop.course.entities;
 
-import java.time.Instant;
+import java.util.Date;
 
 import javax.persistence.Entity;
 
@@ -12,30 +12,30 @@ import com.workshop.course.entities.enums.PaymentStatus;
 public class PaymentBoleto extends Payment {
 	private static final long serialVersionUID = 1L;
 	
-	private Instant paymentDue;
-	private Instant paymentDate;
+	private Date paymentDue;
+	private Date paymentDate;
 	
 	public PaymentBoleto() {		
 	}
 
-	public PaymentBoleto(Long id, PaymentStatus status, Order order, Instant expireDate, Instant expirePayment) {
+	public PaymentBoleto(Long id, PaymentStatus status, Order order, Date expireDate, Date expirePayment) {
 		super(id, status, order);
 		this.paymentDue = expireDate;
 	}
 
-	public Instant getExpireDate() {
+	public Date getExpireDate() {
 		return paymentDue;
 	}
 
-	public void setExpireDate(Instant expireDate) {
+	public void setExpireDate(Date expireDate) {
 		this.paymentDue = expireDate;
 	}
 
-	public Instant getExpirePayment() {
+	public Date getExpirePayment() {
 		return paymentDate;
 	}
 
-	public void setExpirePayment(Instant expirePayment) {
+	public void setExpirePayment(Date expirePayment) {
 		this.paymentDate = expirePayment;
 	}
 	

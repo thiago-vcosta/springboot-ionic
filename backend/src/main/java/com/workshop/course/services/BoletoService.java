@@ -1,6 +1,5 @@
 package com.workshop.course.services;
 
-import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -11,13 +10,11 @@ import com.workshop.course.entities.PaymentBoleto;
 @Service
 public class BoletoService {
 
-	public void fillPaymentWithBoleto(PaymentBoleto pay, Instant paymentInstant) {
-		Date cal = Date.from(paymentInstant);
-		Calendar cal1 = Calendar.getInstance();
-		
-		cal1.setTime(cal);
-		cal1.add(Calendar.DAY_OF_MONTH, 7);
-		pay.setExpireDate(cal1.getTime().toInstant());
+	public void fillPaymentWithBoleto(PaymentBoleto pay, Date paymentInstant) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(paymentInstant);
+		cal.add(Calendar.DAY_OF_MONTH, 7);
+		pay.setExpireDate(cal.getTime());
 	}
 	
 }

@@ -1,6 +1,6 @@
 package com.workshop.course.services;
 
-import java.time.Instant;
+import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,10 +43,8 @@ public class OrderService {
 	}
 
 	public Order insert(Order obj) {
-		
-		Instant instant = Instant.now();
 		obj.setId(null);
-		obj.setInstant(instant);
+		obj.setInstant(new Date());
 		obj.getPayment().setStatus(PaymentStatus.PENDENTE);
 		obj.getPayment().setOrder(obj);
 

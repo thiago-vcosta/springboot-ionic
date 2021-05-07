@@ -1,12 +1,11 @@
 package com.workshop.course.entities;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity(name = "tb_order")
 public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -24,8 +25,8 @@ public class Order implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-	private Instant instant;
+	@JsonFormat(pattern="dd/MM/yyyy HH:mm")
+	private Date instant;
 	
 	@OneToOne(cascade=CascadeType.ALL, mappedBy = "order")
 	private Payment payment;
@@ -44,7 +45,7 @@ public class Order implements Serializable {
 	public Order() {		
 	}
 
-	public Order(Long id, Instant instant, Client client, Address shippingAddress) {
+	public Order(Long id, Date instant, Client client, Address shippingAddress) {
 		super();
 		this.id = id;
 		this.instant = instant;
@@ -68,11 +69,11 @@ public class Order implements Serializable {
 		this.id = id;
 	}
 
-	public Instant getInstant() {
+	public Date getInstant() {
 		return instant;
 	}
 
-	public void setInstant(Instant instant) {
+	public void setInstant(Date instant) {
 		this.instant = instant;
 	}
 
