@@ -15,38 +15,39 @@ public class ClientNewDTO implements Serializable {
 	@Size(min = 5, max = 60, message = "Deve ter entre 5 e 60 caracteres")
 	@NotBlank(message = "Campo obrigatório")
 	private String name;
-	
+
 	@NotBlank(message = "Campo obrigatório")
 	@Email(message = "Email inválido")
 	private String email;
-	
+
 	@NotBlank(message = "Campo obrigatório")
 	private String cpfCnpj;
 	private Integer type;
-	
+
+	@NotBlank(message = "Campo obrigatório")
+	private String password;
+
 	@NotBlank(message = "Campo obrigatório")
 	private String street;
-	
+
 	@NotBlank(message = "Campo obrigatório")
 	private String num;
-	
+
 	private String complement;
 	private String district;
-	
+
 	@NotBlank(message = "Campo obrigatório")
 	private String cep;
-	
+
 	@NotBlank(message = "Campo obrigatório")
 	private String phone1;
 	private String phone2;
 	private String phone3;
-	 
+
 	private Long cityId;
-	
-	public ClientNewDTO() {		
+
+	public ClientNewDTO() {
 	}
-	
-	
 
 	public ClientNewDTO(String name, String email, String cpfCnpj, Integer type, String street, String num,
 			String complement, String district, String cep, String phone1, String phone2, String phone3, Long cityId) {
@@ -96,6 +97,14 @@ public class ClientNewDTO implements Serializable {
 
 	public void setType(Integer type) {
 		this.type = type;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public String getStreet() {
@@ -169,5 +178,5 @@ public class ClientNewDTO implements Serializable {
 	public void setCityId(Long cityId) {
 		this.cityId = cityId;
 	}
-		
+
 }

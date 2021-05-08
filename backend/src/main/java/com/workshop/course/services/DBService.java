@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.ParseException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.workshop.course.entities.Address;
@@ -20,6 +21,7 @@ import com.workshop.course.entities.Product;
 import com.workshop.course.entities.State;
 import com.workshop.course.entities.enums.ClientType;
 import com.workshop.course.entities.enums.PaymentStatus;
+import com.workshop.course.entities.enums.Profile;
 import com.workshop.course.repository.AddressRepository;
 import com.workshop.course.repository.CategoryRepository;
 import com.workshop.course.repository.CityRepository;
@@ -51,6 +53,8 @@ public class DBService {
 	private PaymentRepository pagamentoRepository;
 	@Autowired
 	private OrderItemRepository itemOrderRepository;
+	@Autowired
+	private BCryptPasswordEncoder pe;
 	
 	public void instantiateTestDatabase() throws ParseException, java.text.ParseException {
 		
@@ -198,13 +202,12 @@ public class DBService {
 		estadoRepository.saveAll(Arrays.asList(est1, est2));
 		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
 		
-		Client cli1 = new Client(null, "Maria Silva", "thiagovcosta.testes@gmail.com", "36378912377", ClientType.PESSOAFISICA);
-		
+		Client cli1 = new Client(null, "Maria Silva", "thiagovcosta.testes@gmail.com", "36378912377", ClientType.PESSOAFISICA, pe.encode("123456"));
 		cli1.getPhone().addAll(Arrays.asList("27363323", "93838393"));
 		
-		Client cli2 = new Client(null, "Ana Costa", "nelio.iftm@gmail.com", "31628382740", ClientType.PESSOAFISICA);
+		Client cli2 = new Client(null, "Ana Costa", "thiago.vcosta@uol.com.br", "31628382740", ClientType.PESSOAFISICA, pe.encode("123456"));
 		cli2.getPhone().addAll(Arrays.asList("93883321", "34252625"));
-//		cli2.addPerfil(Perfil.ADMIN);
+		cli2.addProfile(Profile.ADMIN);
 		
 		Address e1 = new Address(null, "Rua Flores", "300", "Apto 303", "Jardim", "38220834", cli1, c1);
 		Address e2 = new Address(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", cli1, c2);

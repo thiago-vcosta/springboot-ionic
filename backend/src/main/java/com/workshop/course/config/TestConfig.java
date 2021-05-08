@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.expression.ParseException;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import com.workshop.course.services.DBService;
 import com.workshop.course.services.EmailService;
@@ -29,4 +31,9 @@ public class TestConfig {
 	public EmailService emailService() {
 		return new MockEmailService();
 	}
+	
+    @Bean
+    public JavaMailSender javaMailSender() { 
+    	return new JavaMailSenderImpl();
+    }
 }

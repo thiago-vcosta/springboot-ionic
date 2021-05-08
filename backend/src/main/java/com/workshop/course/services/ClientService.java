@@ -11,6 +11,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,9 +31,9 @@ public class ClientService {
 	@Autowired
 	private ClientRepository repository;
 	
-//	@Autowired
-//	private AddressRepository addressRepository;
-
+	@Autowired
+	private BCryptPasswordEncoder pe;
+	
 	@Transactional(readOnly = true)
 	public List<ClientDTO> findAll() {
 		List<Client> list = repository.findAll();
@@ -85,14 +86,14 @@ public class ClientService {
 	}
 
 	public Client copyDtoToEntity(ClientDTO dto) {
-		Client cli = new Client(dto.getId(), dto.getName(), dto.getEmail(), null, null);
+		Client cli = new Client(dto.getId(), dto.getName(), dto.getEmail(), null, null, null);
 		return cli;
 	}
 	
 	
 	public Client copyDtoToEntity(ClientNewDTO dto) {
 		
-		Client cli = new Client(null, dto.getName(), dto.getEmail(), dto.getCpfCnpj(), ClientType.toEnum(dto.getType()));
+		Client cli = new Client(null, dto.getName(), dto.getEmail(), dto.getCpfCnpj(), ClientType.toEnum(dto.getType()), pe.encode(dto.getPassword()));
 		City cit = new City(dto.getCityId(), null, null);
 		Address add = new Address(null, dto.getStreet(), dto.getNum(), dto.getComplement(), dto.getDistrict(), dto.getCep(), cli, cit);
 		

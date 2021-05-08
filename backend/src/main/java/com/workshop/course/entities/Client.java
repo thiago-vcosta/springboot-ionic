@@ -3,12 +3,14 @@ package com.workshop.course.entities;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +18,7 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.workshop.course.entities.enums.ClientType;
+import com.workshop.course.entities.enums.Profile;
 
 @Entity(name = "tb_client")
 public class Client implements Serializable {
@@ -30,6 +33,9 @@ public class Client implements Serializable {
 	private String email;
 	private String cpfCnpj;
 	private Integer type;
+	
+	@JsonIgnore
+	private String password;
 
 	@OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
 	private Set<Address> address = new HashSet<>();
@@ -37,21 +43,28 @@ public class Client implements Serializable {
 	@ElementCollection
 	@CollectionTable(name = "phone")
 	private Set<String> phone = new HashSet<>();
+	
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "profiles")
+	private Set<Integer> profiles = new HashSet<>();
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "client")
 	private Set<Order> orders = new HashSet<>();
 
 	public Client() {
+		addProfile(Profile.CLIENT);
 	}
 
-	public Client(Long id, String name, String email, String cpfCnpj, ClientType type) {
+	public Client(Long id, String name, String email, String cpfCnpj, ClientType type, String password) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.cpfCnpj = cpfCnpj;
 		this.type = (type==null) ? null : type.getCode();
+		this.password = password;
+		addProfile(Profile.CLIENT);
 	}
 
 	public Long getId() {
@@ -93,7 +106,23 @@ public class Client implements Serializable {
 	public void setType(ClientType type) {
 		this.type = type.getCode();
 	}
+	
+		public String getPassword() {
+		return password;
+	}
 
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Set<Profile> getProfiles() {
+		return profiles.stream().map(x -> Profile.toEnum(x)).collect(Collectors.toSet());
+	}
+	
+	public void addProfile(Profile profile) {
+		profiles.add(profile.getCode());
+	}
+	
 	public Set<String> getPhone() {
 		return phone;
 	}
