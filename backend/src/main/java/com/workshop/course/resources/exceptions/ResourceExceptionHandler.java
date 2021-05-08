@@ -11,6 +11,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.workshop.course.services.exeptions.AuthorizationException;
 import com.workshop.course.services.exeptions.DatabaseException;
 import com.workshop.course.services.exeptions.ResourceNotFoundException;
 
@@ -64,9 +65,21 @@ public class ResourceExceptionHandler {
 		StandardError err = new StandardError();
 		err.setTimestamp(Instant.now());
 		err.setStatus(status.value());
-		err.setError("Bad request");
+		err.setError("Acesso negado");
 		err.setMessage(e.getMessage());
 		err.setPath(request.getRequestURI());
+		return ResponseEntity.status(status).body(err);
+	}
+	
+	@ExceptionHandler(AuthorizationException.class)
+	public ResponseEntity<StandardError> authorization(AuthorizationException e, HttpServletRequest request) {
+		HttpStatus status = HttpStatus.FORBIDDEN;
+		StandardError err = new StandardError();
+		err.setTimestamp(Instant.now());
+		err.setStatus(status.value());
+		err.setError("Bad request");
+		err.setMessage(e.getMessage());
+		err.setPath(request.getRequestURI());		
 		return ResponseEntity.status(status).body(err);
 	}
 }

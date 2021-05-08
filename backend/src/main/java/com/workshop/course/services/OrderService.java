@@ -4,9 +4,12 @@ import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.workshop.course.entities.Client;
 import com.workshop.course.entities.Order;
 import com.workshop.course.entities.OrderItem;
 import com.workshop.course.entities.PaymentBoleto;
@@ -14,6 +17,8 @@ import com.workshop.course.entities.enums.PaymentStatus;
 import com.workshop.course.repository.OrderItemRepository;
 import com.workshop.course.repository.OrderRepository;
 import com.workshop.course.repository.PaymentRepository;
+import com.workshop.course.security.UserSS;
+import com.workshop.course.services.exeptions.AuthorizationException;
 import com.workshop.course.services.exeptions.ResourceNotFoundException;
 
 @Service
@@ -71,5 +76,18 @@ public class OrderService {
 		orderItemRepository.saveAll(obj.getItems());
 		emailService.sendOrderConfirmationHtmlEmail(obj);
 		return obj;
+	}
+	
+	@Transactional(readOnly = true)
+	public Page<Order> findAllPaged(PageRequest pageRequest) {
+		
+		UserSS user = UserService.authenticated();
+		if (user == null) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
+		Client client =  clientService.findById(user.getId());
+		
+		return repository.findByClient(client, pageRequest);
 	}
 }

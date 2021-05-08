@@ -21,7 +21,10 @@ import com.workshop.course.entities.Address;
 import com.workshop.course.entities.City;
 import com.workshop.course.entities.Client;
 import com.workshop.course.entities.enums.ClientType;
+import com.workshop.course.entities.enums.Profile;
 import com.workshop.course.repository.ClientRepository;
+import com.workshop.course.security.UserSS;
+import com.workshop.course.services.exeptions.AuthorizationException;
 import com.workshop.course.services.exeptions.DatabaseException;
 import com.workshop.course.services.exeptions.ResourceNotFoundException;
 
@@ -30,10 +33,10 @@ public class ClientService {
 
 	@Autowired
 	private ClientRepository repository;
-	
+
 	@Autowired
 	private BCryptPasswordEncoder pe;
-	
+
 	@Transactional(readOnly = true)
 	public List<ClientDTO> findAll() {
 		List<Client> list = repository.findAll();
@@ -48,6 +51,12 @@ public class ClientService {
 
 	@Transactional(readOnly = true)
 	public Client findById(Long id) {
+
+		UserSS user = UserService.authenticated();
+		if (user==null || !user.hasRole(Profile.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+
 		Optional<Client> obj = repository.findById(id);
 		Client entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity Not Found Id: " + id));
 		return entity;
@@ -89,16 +98,17 @@ public class ClientService {
 		Client cli = new Client(dto.getId(), dto.getName(), dto.getEmail(), null, null, null);
 		return cli;
 	}
-	
-	
+
 	public Client copyDtoToEntity(ClientNewDTO dto) {
-		
-		Client cli = new Client(null, dto.getName(), dto.getEmail(), dto.getCpfCnpj(), ClientType.toEnum(dto.getType()), pe.encode(dto.getPassword()));
+
+		Client cli = new Client(null, dto.getName(), dto.getEmail(), dto.getCpfCnpj(), ClientType.toEnum(dto.getType()),
+				pe.encode(dto.getPassword()));
 		City cit = new City(dto.getCityId(), null, null);
-		Address add = new Address(null, dto.getStreet(), dto.getNum(), dto.getComplement(), dto.getDistrict(), dto.getCep(), cli, cit);
-		
+		Address add = new Address(null, dto.getStreet(), dto.getNum(), dto.getComplement(), dto.getDistrict(),
+				dto.getCep(), cli, cit);
+
 		cli.getAddress().add(add);
-		
+
 		cli.getPhone().add(dto.getPhone1());
 		if (dto.getPhone2() != null) {
 			cli.getPhone().add(dto.getPhone2());
@@ -109,7 +119,7 @@ public class ClientService {
 
 		return cli;
 	}
-	
+
 	private void updateData(Client entity, Client dto) {
 		entity.setName(dto.getName());
 		entity.setEmail(dto.getEmail());
